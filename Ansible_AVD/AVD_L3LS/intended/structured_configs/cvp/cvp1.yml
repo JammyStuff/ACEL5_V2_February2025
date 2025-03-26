@@ -28,6 +28,10 @@ cvp_devices:
     parentContainerName: Spine
     configlets:
       - AVD_spine3
+  - fqdn: spine4
+    parentContainerName: Spine
+    configlets:
+      - AVD_spine4
 cvp_containers:
   Leaf:
     parentContainerName: Tenant
