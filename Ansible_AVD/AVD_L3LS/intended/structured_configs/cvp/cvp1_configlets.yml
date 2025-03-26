@@ -260,23 +260,24 @@ cvp_configlets:
     switchport\n   ip address 192.168.103.21/31\n!\ninterface Ethernet5\n   description
     P2P_LINK_TO_SPINE3_Ethernet6\n   no shutdown\n   mtu 1550\n   no switchport\n
     \  ip address 192.168.103.23/31\n!\ninterface Ethernet7\n   description host3_Ethernet2\n
-    \  no shutdown\n   channel-group 7 mode active\n!\ninterface Loopback0\n   description
-    EVPN_Overlay_Peering\n   no shutdown\n   ip address 192.168.101.4/32\n!\ninterface
-    Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n   no shutdown\n   ip address
-    192.168.102.3/32\n!\ninterface Management0\n   description oob_management\n   no
-    shutdown\n   vrf MGMT\n   ip address 192.168.0.24/24\n!\ninterface Vlan10\n   description
-    DMZ\n   no shutdown\n   vrf VRF_A\n   ip address virtual 10.1.10.1/24\n!\ninterface
-    Vlan20\n   description Internal\n   no shutdown\n   vrf VRF_A\n   ip address virtual
-    10.1.20.1/24\n!\ninterface Vlan3009\n   description MLAG_PEER_L3_iBGP: vrf VRF_A\n
-    \  no shutdown\n   mtu 1550\n   vrf VRF_A\n   ip address 10.255.251.5/31\n!\ninterface
-    Vlan4093\n   description MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 1550\n   ip
-    address 10.255.251.5/31\n!\ninterface Vlan4094\n   description MLAG_PEER\n   no
-    shutdown\n   mtu 1550\n   no autostate\n   ip address 10.255.252.5/31\n!\ninterface
-    Vxlan1\n   description leaf4_VTEP\n   vxlan source-interface Loopback1\n   vxlan
-    virtual-router encapsulation mac-address mlag-system-id\n   vxlan udp-port 4789\n
-    \  vxlan vlan 10 vni 10010\n   vxlan vlan 20 vni 10020\n   vxlan vrf VRF_A vni
-    10\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n!\nip routing\nno ip routing
-    vrf MGMT\nip routing vrf VRF_A\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
+    \  no shutdown\n   channel-group 7 mode active\n!\ninterface Ethernet9\n   no
+    shutdown\n   no switchport\n   vrf VRF_A\n   ip address 10.1.5.1/24\n!\ninterface
+    Loopback0\n   description EVPN_Overlay_Peering\n   no shutdown\n   ip address
+    192.168.101.4/32\n!\ninterface Loopback1\n   description VTEP_VXLAN_Tunnel_Source\n
+    \  no shutdown\n   ip address 192.168.102.3/32\n!\ninterface Management0\n   description
+    oob_management\n   no shutdown\n   vrf MGMT\n   ip address 192.168.0.24/24\n!\ninterface
+    Vlan10\n   description DMZ\n   no shutdown\n   vrf VRF_A\n   ip address virtual
+    10.1.10.1/24\n!\ninterface Vlan20\n   description Internal\n   no shutdown\n   vrf
+    VRF_A\n   ip address virtual 10.1.20.1/24\n!\ninterface Vlan3009\n   description
+    MLAG_PEER_L3_iBGP: vrf VRF_A\n   no shutdown\n   mtu 1550\n   vrf VRF_A\n   ip
+    address 10.255.251.5/31\n!\ninterface Vlan4093\n   description MLAG_PEER_L3_PEERING\n
+    \  no shutdown\n   mtu 1550\n   ip address 10.255.251.5/31\n!\ninterface Vlan4094\n
+    \  description MLAG_PEER\n   no shutdown\n   mtu 1550\n   no autostate\n   ip
+    address 10.255.252.5/31\n!\ninterface Vxlan1\n   description leaf4_VTEP\n   vxlan
+    source-interface Loopback1\n   vxlan virtual-router encapsulation mac-address
+    mlag-system-id\n   vxlan udp-port 4789\n   vxlan vlan 10 vni 10010\n   vxlan vlan
+    20 vni 10020\n   vxlan vrf VRF_A vni 10\n!\nip virtual-router mac-address 00:1c:73:00:00:99\n!\nip
+    routing\nno ip routing vrf MGMT\nip routing vrf VRF_A\n!\nip prefix-list PL-LOOPBACKS-EVPN-OVERLAY\n
     \  seq 10 permit 192.168.101.0/24 eq 32\n   seq 20 permit 192.168.102.0/24 eq
     32\n!\nmlag configuration\n   domain-id mlag2\n   local-interface Vlan4094\n   peer-address
     10.255.252.4\n   peer-link Port-Channel1\n   reload-delay mlag 300\n   reload-delay
@@ -315,8 +316,9 @@ cvp_configlets:
     \     no neighbor EVPN-OVERLAY-PEERS activate\n      neighbor IPv4-UNDERLAY-PEERS
     activate\n      neighbor MLAG-IPv4-UNDERLAY-PEER activate\n   !\n   vrf VRF_A\n
     \     rd 192.168.101.4:10\n      route-target import evpn 10:10\n      route-target
-    export evpn 10:10\n      router-id 192.168.101.4\n      neighbor 10.255.251.4
-    peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute connected\n!\nmanagement
+    export evpn 10:10\n      router-id 192.168.101.4\n      neighbor 10.1.5.254 remote-as
+    1\n      neighbor 10.255.251.4 peer group MLAG-IPv4-UNDERLAY-PEER\n      redistribute
+    connected\n      !\n      address-family ipv4\n         neighbor 10.1.5.254 activate\n!\nmanagement
     api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf MGMT\n      no
     shutdown\n!\nend\n"
   AVD_spine1: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending range
